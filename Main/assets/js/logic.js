@@ -45,24 +45,23 @@ function getQuestion() {
   choicesEl.innerHTML = '';
 
   // loop over choices
-  for (var i = 0; i < currentQuestion.choices.length; i++) {
+  currentQuestion.choices.forEach(function(choice, index) {
     // create new button for each choice
-    var choice = currentQuestion.choices[i];
     var choiceNode = document.createElement('button');
     choiceNode.setAttribute('class', 'choice');
     choiceNode.setAttribute('value', choice);
 
-    choiceNode.textContent = i + 1 + '. ' + choice;
+    choiceNode.textContent = index + 1 + '. ' + choice;
 
     // display on the page
     choicesEl.appendChild(choiceNode);
-  }
+  });
 }
 
 function questionClick(event) {
   var buttonEl = event.target;
 
-  // if the clicked element is not a choice button, do nothing.
+  // if the clicked element is not a choice button, do nothing
   if (!buttonEl.matches('.choice')) {
     return;
   }
@@ -141,8 +140,7 @@ function saveHighscore() {
   // make sure value wasn't empty
   if (initials !== '') {
     // get saved scores from localstorage, or if not any, set to empty array
-    var highscores =
-      JSON.parse(window.localStorage.getItem('highscores')) || [];
+    var highscores = JSON.parse(window.localStorage.getItem('highscores')) || [];
 
     // format new score object for current user
     var newScore = {
@@ -175,4 +173,5 @@ startBtn.onclick = startQuiz;
 // user clicks on element containing choices
 choicesEl.onclick = questionClick;
 
+// listen for enter key on initials input
 initialsEl.onkeyup = checkForEnter;
